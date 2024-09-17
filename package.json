@@ -1,7 +1,22 @@
 {
   "dependencies": {
-    "react": "^18.0.0",  
-    "react-dom": "^18.0.0", 
+    "express": "^4.21.0",
+    "nodemon": "^3.1.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-router-dom": "^6.26.2"
-  }
+  },
+  "name": "mern_blog",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon api/index.js",
+    "start" : "node api/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
