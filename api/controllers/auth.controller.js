@@ -50,7 +50,6 @@ export const signin = async (req, res, next) => {
   try {
     //email and password validation
     const validUser = await User.findOne({ email });
-    console.log(validUser);
     if (!validUser) {
       return next(errorHandler(404, "User not Found!"));
     }
