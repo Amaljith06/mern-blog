@@ -1,12 +1,21 @@
-import { Button, Navbar, TextInput } from "flowbite-react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  Navbar,
+  TextInput,
+} from "flowbite-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 //Title, Logo, SearchBar, DarkMode
 export default function Header() {
   const path = useLocation().pathname;
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <Navbar className="border-b-2">
       {/* Logo */}
@@ -40,12 +49,41 @@ export default function Header() {
         <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
           <FaMoon />
         </Button>
-        {/* Sign In */}
-        <Link to="/sign-in">
-          <Button gradientDuoTone="pinkToOrange" outline>
-            Sign In
-          </Button>
-        </Link>
+        {currentUser ? (
+          // if user is logged in
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              // Avatar
+              <Avatar alt="user" img={currentUser.profilePicture} rounded />
+            }
+          >
+            {/* Display username and email */}
+            <Dropdown.Header>
+              <span className="block text-sm">{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate">
+                {currentUser.email}
+              </span>
+            </Dropdown.Header>
+            {/* Profile Button */}
+            <Link to="/dashboard?tab=profile">
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            {/* Sign out Button */}
+            <Dropdown.Divider />
+            <DropdownItem>Sign out</DropdownItem>
+          </Dropdown>
+        ) : (
+          // if user not logged in
+          // Sign In
+          <Link to="/sign-in">
+            <Button gradientDuoTone="pinkToOrange" outline>
+              Sign In
+            </Button>
+          </Link>
+        )}
+
         <Navbar.Toggle />
       </div>
 
