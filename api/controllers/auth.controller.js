@@ -30,7 +30,7 @@ export const signup = async (req, res, next) => {
   });
 
   try {
-    await newUser.save(); // Add to DB
+    await newUser.save(); // save user to DB
     res.json("Signup successful!");
   } catch (error) {
     next(error); // Send error to middleware
@@ -69,6 +69,52 @@ export const signin = async (req, res, next) => {
         httpOnly: true,
       })
       .json(userWithoutPassword);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//google authentication
+export const google = async (req, res, next) => {
+  const { email, name, googlePhotoUrl } = req.body;
+
+  try {
+    //check if user exist
+    const user = await User.findOne({ email });
+    // if user exist, create token and send response
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const { password, ...userWithoutPassword } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(userWithoutPassword);
+    } else {
+      //create random password for user
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      // hash password
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+      //create User
+      const newUser = new User({
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4), //eg: firstNamelastName1645
+        email,
+        password: hashedPassword,
+        profilePicture: googlePhotoUrl,
+      });
+      // save user to the database
+      await newUser.save();
+      // create token and send response
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      const { password, ...userWithoutPassword } = newUser._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(userWithoutPassword);
+    }
   } catch (error) {
     next(error);
   }

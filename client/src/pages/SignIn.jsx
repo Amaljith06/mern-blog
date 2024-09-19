@@ -7,11 +7,12 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //to dispatch reducer functions
   const navigate = useNavigate();
 
   // update on changes
@@ -105,22 +106,24 @@ export default function SignIn() {
                 "Sign In"
               )}
             </Button>
-
-            {/* Sign Up Shortcut */}
-            <div className="flex gap-2 text-sm mt-5">
-              <span>Don't have an account?</span>
-              <Link to="/sign-up" className="text-blue-500">
-                Sign Up
-              </Link>
-            </div>
-
-            {/* Error Message Alert*/}
-            {errorMessage && (
-              <Alert className="mt-5" color="failure">
-                {errorMessage}
-              </Alert>
-            )}
+            {/* Google Authentication */}
+            {/* Continue with Google */}
+            <OAuth />
           </form>
+          {/* Sign Up Shortcut */}
+          <div className="flex gap-2 text-sm mt-5">
+            <span>Don't have an account?</span>
+            <Link to="/sign-up" className="text-blue-500">
+              Sign Up
+            </Link>
+          </div>
+
+          {/* Error Message Alert*/}
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -98,7 +99,7 @@ export default function SignUp() {
             <Button
               gradientDuoTone="pinkToOrange"
               type="submit"
-              disable={loading}
+              disabled={loading}
             >
               {/* Loading Effect */}
               {loading ? (
@@ -110,22 +111,24 @@ export default function SignUp() {
                 "Sign Up"
               )}
             </Button>
-
-            {/* Sign In Shortcut */}
-            <div className="flex gap-2 text-sm mt-5">
-              <span>Have an account?</span>
-              <Link to="/sign-in" className="text-blue-500">
-                Sign In
-              </Link>
-            </div>
-
-            {/* Error Message Alert*/}
-            {error && (
-              <Alert className="mt-5" color="failure">
-                {error}
-              </Alert>
-            )}
+            {/* Google Authentication */}
+            {/* Continue with Google */}
+            <OAuth />
           </form>
+          {/* Sign In Shortcut */}
+          <div className="flex gap-2 text-sm mt-5">
+            <span>Have an account?</span>
+            <Link to="/sign-in" className="text-blue-500">
+              Sign In
+            </Link>
+          </div>
+
+          {/* Error Message Alert*/}
+          {error && (
+            <Alert className="mt-5" color="failure">
+              {error}
+            </Alert>
+          )}
         </div>
       </div>
     </div>
