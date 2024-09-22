@@ -46,12 +46,14 @@ export default function DashProfile() {
     //   }
     setImageFileUploadError(null);
     const storage = getStorage(app);
-    const fileName = new Date().getTime() + imageFile.name;
+    const fileName = new Date().getTime() + imageFile.name; // add date to make filename unique
     const storageRef = ref(storage, fileName);
+    // uploading to firebase storage
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
+        // calculating progress of upload
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileUploadProgress(progress.toFixed(0)); // toFixed() to round decimal value
@@ -65,9 +67,10 @@ export default function DashProfile() {
         setImageFileUrl(null);
       },
       () => {
+        // get file from firebase storage
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
-          setImageFileUploadProgress(null);
+          setImageFileUploadProgress(null); // to remove progress % after upload
         });
       }
     );
@@ -76,7 +79,7 @@ export default function DashProfile() {
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form className="flex flex-col gap-4">
-        {/* User Image Upload */}
+        {/* User Image upload input*/}
         <input
           type="file"
           accept="image/*"
@@ -89,6 +92,7 @@ export default function DashProfile() {
           className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full"
           onClick={() => filePickerRef.current.click()}
         >
+          {/* Circular Progress Bar */}
           {imageFileUploadProgress && (
             <CircularProgressbar
               value={imageFileUploadProgress || 0}
@@ -108,12 +112,17 @@ export default function DashProfile() {
               }}
             />
           )}
+          {/* Image */}
           <img
-            src={imageFileUrl ? imageFileUrl : currentUser ? (
-              currentUser.profilePicture
-            ) : (
-              <LoadingSpinner />
-            )}
+            src={
+              imageFileUrl ? (
+                imageFileUrl
+              ) : currentUser ? (
+                currentUser.profilePicture
+              ) : (
+                <LoadingSpinner />
+              )
+            }
             alt="user"
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&

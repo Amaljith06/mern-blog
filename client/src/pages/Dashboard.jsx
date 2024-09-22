@@ -6,6 +6,7 @@ export default function Dashboard() {
   // get current path
   const location = useLocation();
   const [tab, setTab] = useState();
+  //update current tab
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");

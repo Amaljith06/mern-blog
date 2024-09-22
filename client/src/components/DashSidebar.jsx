@@ -6,7 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function DashSidebar() {
   const location = useLocation();
   const [tab, setTab] = useState();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  //update current tab
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -18,6 +19,7 @@ export default function DashSidebar() {
     <Sidebar className="w-full mid:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
+          {/* Profile */}
           <Sidebar.Item
             active={tab === "profile"}
             icon={HiUser}
@@ -27,6 +29,7 @@ export default function DashSidebar() {
           >
             Profile
           </Sidebar.Item>
+          {/* Sign Out */}
           <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer">
             Sign Out
           </Sidebar.Item>
