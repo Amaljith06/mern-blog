@@ -37,11 +37,18 @@ const userSlice = createSlice({
     updateFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
-    }
+    },
   },
 });
 
 // Export the generated actions from userSlice
-export const { signInStart, signInSuccess, signInFailure, updateStart, updateSuccess, updateFailure } = userSlice.actions;
+export const {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  updateStart,
+  updateSuccess,
+  updateFailure,
+} = userSlice.actions;
 
 export default userSlice.reducer;
