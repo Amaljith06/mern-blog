@@ -1,4 +1,5 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
+import { Link } from 'react-router-dom'
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -266,6 +267,20 @@ export default function DashProfile() {
         >
           Update
         </Button>
+        {/* Create Post Button */}
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+          <Button
+            type="button"
+            gradientDuoTone={
+              theme === "light" ? "pinkToOrange" : "purpleToBlue"
+            }
+            className="w-full"
+          >
+            Create a post
+          </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         {/* Delete Account */}
