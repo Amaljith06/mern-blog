@@ -12,6 +12,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice.js";
+import { signOutSuccess } from "../redux/user/userSlice.js";
 
 //Title, Logo, SearchBar, DarkMode
 export default function Header() {
@@ -19,6 +20,23 @@ export default function Header() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+
+  // Sign Out User
+  const handleSignOut = async (e) => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <Navbar className="border-b-2">
       {/* Logo */}
@@ -55,7 +73,7 @@ export default function Header() {
           pill
           onClick={() => dispatch(toggleTheme())}
         >
-          { theme === 'light' ? <FaSun/> : <FaMoon/>}
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
           // if user is logged in
@@ -80,7 +98,7 @@ export default function Header() {
             </Link>
             {/* Sign out Button */}
             <Dropdown.Divider />
-            <DropdownItem>Sign out</DropdownItem>
+            <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>
           </Dropdown>
         ) : (
           // if user not logged in

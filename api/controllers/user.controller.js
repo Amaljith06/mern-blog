@@ -7,6 +7,7 @@ export const test = (req, res) => {
   res.json({ message: "Test Message!" });
 };
 
+//Update User
 export const updateUser = async (req, res, next) => {
   // check if requesting user same as signed in user
   if (req.user.id !== req.params.userId) {
@@ -63,6 +64,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
+// Delete User
 export const deleteUser = async (req, res, next) => {
   // check if requesting user same as signed in user
   if (req.user.id !== req.params.userId) {
@@ -72,7 +74,19 @@ export const deleteUser = async (req, res, next) => {
   // Delete User
   try {
     await User.findByIdAndDelete(req.params.userId);
-    res.status(200).json('User has been deleted');
+    res.status(200).json("User has been deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Sign Out
+export const signOut = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .json("User has been signed out");
   } catch (error) {
     next(error);
   }
