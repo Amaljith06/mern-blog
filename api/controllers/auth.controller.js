@@ -59,7 +59,10 @@ export const signin = async (req, res, next) => {
     }
 
     //create token using JWT
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET
+    );
     // exclude password
     const { password: pass, ...userWithoutPassword } = validUser._doc;
     //Send response with token in cookie
@@ -83,7 +86,10 @@ export const google = async (req, res, next) => {
     const user = await User.findOne({ email });
     // if user exist, create token and send response
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password, ...userWithoutPassword } = user._doc;
       res
         .status(200)
@@ -108,7 +114,10 @@ export const google = async (req, res, next) => {
       // save user to the database
       await newUser.save();
       // create token and send response
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password, ...userWithoutPassword } = newUser._doc;
       res
         .status(200)
