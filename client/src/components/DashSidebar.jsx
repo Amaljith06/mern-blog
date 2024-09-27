@@ -1,11 +1,12 @@
-import { Sidebar } from "flowbite-react";
+import { Sidebar, SidebarItem } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiUser, HiArrowSmRight } from "react-icons/hi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { HiUser, HiArrowSmRight, HiDocumentText } from "react-icons/hi";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signOutSuccess } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function DashSidebar() {
+  const { currentUser } = useSelector(state => state.user);
   const location = useLocation();
   const [tab, setTab] = useState();
   const navigate = useNavigate();
@@ -38,19 +39,34 @@ export default function DashSidebar() {
   return (
     <Sidebar className="w-full mid:w-56">
       <Sidebar.Items>
-        <Sidebar.ItemGroup>
+        <Sidebar.ItemGroup className="flex flex-col gap-1">
           {/* Profile */}
           <Sidebar.Item
             active={tab === "profile"}
             icon={HiUser}
-            label={"User"}
+            label={currentUser.isAdmin ? "Admin" : "User"}
             labelColor="dark"
             onClick={() => navigate("/dashboard?tab=profile")}
           >
             Profile
           </Sidebar.Item>
+          {currentUser.isAdmin && (
+            <Link to="/dashboard?tab=posts">
+              <Sidebar.Item
+                active={tab === "posts"}
+                icon={HiDocumentText}
+                as="div"
+              >
+                Posts
+              </Sidebar.Item>
+            </Link>
+          )}
           {/* Sign Out */}
-          <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={handleSignOut}>
+          <Sidebar.Item
+            icon={HiArrowSmRight}
+            className="cursor-pointer"
+            onClick={handleSignOut}
+          >
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
