@@ -53,7 +53,10 @@ export const getPosts = async (req, res, next) => {
           { content: { $regex: req.query.searchTerm, $options: "i" } },
         ],
       }),
-    }).sort({ updatedAt: sortDirection }).skip(startIndex).limit(limit);
+    })
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
 
     // total number of posts
     const totalPosts = await Post.countDocuments();
@@ -78,7 +81,19 @@ export const getPosts = async (req, res, next) => {
       totalPosts,
       lastMonthPosts,
     });
+  } catch (error) {
+    next(error);
+  }
+};
 
+// delete post
+export const deletePost = async (req, res, next) => {
+  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
+    return next(errorHandler(401, "You are not allowed to delete this post"));
+  }
+  try {
+    await Post.findByIdAndDelete(req.params.userId);
+    res.status(200).json('The post has been deleted');
   } catch (error) {
     next(error);
   }

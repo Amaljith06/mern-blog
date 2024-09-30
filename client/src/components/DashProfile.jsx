@@ -1,5 +1,5 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -269,16 +269,16 @@ export default function DashProfile() {
         </Button>
         {/* Create Post Button */}
         {currentUser.isAdmin && (
-          <Link to={'/create-post'}>
-          <Button
-            type="button"
-            gradientDuoTone={
-              theme === "light" ? "pinkToOrange" : "purpleToBlue"
-            }
-            className="w-full"
-          >
-            Create a post
-          </Button>
+          <Link to={"/create-post"}>
+            <Button
+              type="button"
+              gradientDuoTone={
+                theme === "light" ? "pinkToOrange" : "purpleToBlue"
+              }
+              className="w-full"
+            >
+              Create a post
+            </Button>
           </Link>
         )}
       </form>
@@ -321,7 +321,7 @@ export default function DashProfile() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 tet-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete your account?{" "}
+              Are you sure you want to delete your account?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeleteUser}>
