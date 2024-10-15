@@ -7,7 +7,10 @@ export default function CallToAction() {
       <div className="flex-1 justify-center flex flex-col">
         <h2 className="text-2xl">Got something on your mind?</h2>
         <p className="text-gray-500 my-2">Contact us to add your blog post.</p>
-        <Button gradientDuoTone="pinkToOrange" className="rounded-tl-xl rounded-bl-none">
+        <Button
+          gradientDuoTone="pinkToOrange"
+          className="rounded-tl-xl rounded-bl-none"
+        >
           <a
             href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSKkVXmSKnqfFNcrjwCPwwxrLXZNRHQJFgtkgZcMnzQgSdqhrGrJkTmqPBJMZvDjczplsnvb"
             target="_blank"

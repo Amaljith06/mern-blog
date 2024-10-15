@@ -37,7 +37,6 @@ export default function UpdatePost() {
         } else {
           setPublishError(null);
           setFormData(data.posts[0]);
-          console.log(formData._id)
         }
       };
 
