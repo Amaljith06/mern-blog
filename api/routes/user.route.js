@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteUser,
+  getUser,
   getUsers,
   signOut,
   test,
@@ -25,4 +26,8 @@ router.post("/signout", signOut);
 
 // get user info
 router.get("/getusers", verifyToken, getUsers);
+
+// get user info for comment section
+router.get("/:userId", getUser);
+
 export default router;
