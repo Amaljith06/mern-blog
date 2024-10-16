@@ -78,10 +78,27 @@ export default function CommentSection({ postId }) {
         );
       }
     } catch (error) {
-      console.log(error.message);
+      setCommentError(error.message);
     }
   };
 
+  // edit comment
+  const handleEdit = async (comment, editedContent) => {
+    try {
+      setComments(
+        comments.map((c) =>
+          c._id === comment._id
+            ? {
+                ...c,
+                content: editedContent,
+              }
+            : c
+        )
+      );
+    } catch (error) {
+      setCommentError(error.message);
+    }
+  };
   return (
     <div>
       {currentUser ? (
@@ -146,7 +163,12 @@ export default function CommentSection({ postId }) {
             </div>
           </div>
           {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} onLike={handleLike} />
+            <Comment
+              key={comment._id}
+              comment={comment}
+              onLike={handleLike}
+              onEdit={handleEdit}
+            />
           ))}
         </>
       )}
