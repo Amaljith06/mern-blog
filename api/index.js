@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.route.js";
 import postRoutes from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.route.js";
 import cookieParser from "cookie-parser";
+import path from 'path';
 
 // Configure .env
 dotenv.config();
@@ -19,6 +20,9 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+// gives the directory path of the currently executing script.
+const __dirname = path.resolve();
 
 // Create express app
 const app = express();
@@ -36,6 +40,14 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
+
+//serve all static assets
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+// serve index.html for any unknown routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 //middleware
 app.use((err, req, res, next) => {
